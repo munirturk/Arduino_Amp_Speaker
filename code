@@ -1,0 +1,30 @@
+#include "SD.h" //Lib to read SD card
+#include "TMRpcm.h" //Lib to play auido
+#include "SPI.h" //SPI lib for SD card
+
+#define SD_ChipSelectPin 4 //Chip select is pin number 4
+TMRpcm music; //Lib object is named "music"
+
+int song_number=1;
+boolean play_pause;
+
+void setup(){
+music.speakerPin = 9; //Auido out on pin 9
+Serial.begin(9600); //Serial Com for debugging 
+if (!SD.begin(SD_ChipSelectPin)) {
+Serial.println("SD fail");
+return;
+
+}
+music.setVolume(7);    //   0 to 7. Set volume level
+music.quality(0);        //  Set 1 for 2x oversampling Set 0 for normal   
+}
+
+void loop()
+{ 
+  Serial.println("loop ta");
+  Serial.print("song_number=");
+  Serial.println(song_number);
+  music.play("3.wav");
+  delay(200000);
+}
